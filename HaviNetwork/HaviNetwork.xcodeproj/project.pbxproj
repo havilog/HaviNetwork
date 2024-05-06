@@ -22,6 +22,9 @@
 		400AB5CB2BE905F0006A2AAB /* URLRequestConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5CA2BE905F0006A2AAB /* URLRequestConfigurable.swift */; };
 		400AB5CD2BE90651006A2AAB /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5CC2BE90651006A2AAB /* Interceptor.swift */; };
 		400AB5CF2BE906B5006A2AAB /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5CE2BE906B5006A2AAB /* Response.swift */; };
+		400AB5D12BE9090A006A2AAB /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5D02BE9090A006A2AAB /* DataRequest.swift */; };
+		400AB5D32BE909CD006A2AAB /* DataRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5D22BE909CD006A2AAB /* DataRequestTests.swift */; };
+		400AB5D52BE90A24006A2AAB /* URLConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5D42BE90A24006A2AAB /* URLConvertibleTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		400AB5CA2BE905F0006A2AAB /* URLRequestConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestConfigurable.swift; sourceTree = "<group>"; };
 		400AB5CC2BE90651006A2AAB /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		400AB5CE2BE906B5006A2AAB /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		400AB5D02BE9090A006A2AAB /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
+		400AB5D22BE909CD006A2AAB /* DataRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequestTests.swift; sourceTree = "<group>"; };
+		400AB5D42BE90A24006A2AAB /* URLConvertibleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConvertibleTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,7 @@
 				400AB5CA2BE905F0006A2AAB /* URLRequestConfigurable.swift */,
 				400AB5CC2BE90651006A2AAB /* Interceptor.swift */,
 				400AB5CE2BE906B5006A2AAB /* Response.swift */,
+				400AB5D02BE9090A006A2AAB /* DataRequest.swift */,
 			);
 			path = HaviNetwork;
 			sourceTree = "<group>";
@@ -114,6 +121,8 @@
 				400AB5BF2BE8D10A006A2AAB /* URLEncodingTests.swift */,
 				400AB5C22BE8EFA7006A2AAB /* JSONEncodingTests.swift */,
 				400AB5C82BE90387006A2AAB /* TestHelpers.swift */,
+				400AB5D22BE909CD006A2AAB /* DataRequestTests.swift */,
+				400AB5D42BE90A24006A2AAB /* URLConvertibleTests.swift */,
 			);
 			path = HaviNetworkTests;
 			sourceTree = "<group>";
@@ -229,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				400AB5B22BE8C83C006A2AAB /* Header.swift in Sources */,
+				400AB5D12BE9090A006A2AAB /* DataRequest.swift in Sources */,
 				400AB5BC2BE8CECF006A2AAB /* URLConvertible.swift in Sources */,
 				400AB5B62BE8CDA0006A2AAB /* HTTPMethod.swift in Sources */,
 				400AB5CF2BE906B5006A2AAB /* Response.swift in Sources */,
@@ -244,6 +254,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				400AB5D32BE909CD006A2AAB /* DataRequestTests.swift in Sources */,
+				400AB5D52BE90A24006A2AAB /* URLConvertibleTests.swift in Sources */,
 				400AB5B42BE8C8A0006A2AAB /* HeaderTests.swift in Sources */,
 				400AB5C92BE90387006A2AAB /* TestHelpers.swift in Sources */,
 				400AB5C02BE8D10A006A2AAB /* URLEncodingTests.swift in Sources */,
