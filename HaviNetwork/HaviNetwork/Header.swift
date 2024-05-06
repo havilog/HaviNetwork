@@ -7,25 +7,23 @@
 
 import Foundation
 
-extension HaviNetwork {
-  public struct Header: Hashable {
-    public let key: String
-    public let value: String
-    
-    public init(key: String, value: String) {
-      self.key = key
-      self.value = value
-    }
-  }    
-}
+public struct Header: Hashable {
+  public let key: String
+  public let value: String
+  
+  public init(key: String, value: String) {
+    self.key = key
+    self.value = value
+  }
+}    
 
-extension HaviNetwork.Header {
+extension Header {
   public var toDictionaryString: String {
     return "\(key): \(value)" 
   }
 }
 
-public extension HaviNetwork.Header {
+public extension Header {
   static func authorization(_ value: String) -> Self {
     return .init(key: "Authorization", value: value)
   }
@@ -37,7 +35,7 @@ public extension HaviNetwork.Header {
   }
 }
 
-public extension [HaviNetwork.Header] {
+public extension [Header] {
   var dictionary: [String: String] {
     let namesAndValues = self.map { ($0.key, $0.value) }
     return Dictionary(namesAndValues, uniquingKeysWith: { _, last in last })
@@ -45,11 +43,11 @@ public extension [HaviNetwork.Header] {
 }
 
 public extension URLRequest {
-  mutating func setHeaders( _ headers: [HaviNetwork.Header]) {
+  mutating func setHeaders( _ headers: [Header]) {
     headers.forEach { self.setHeader($0) }
   }
   
-  mutating func setHeader( _ header: HaviNetwork.Header) {
+  mutating func setHeader( _ header: Header) {
     self.setValue(header.value, forHTTPHeaderField: header.key)
   }
 }
