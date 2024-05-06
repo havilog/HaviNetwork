@@ -21,10 +21,9 @@ public enum ConfigurationError: NetworkError {
 
 public enum DecodingError: NetworkError {
   case failedToDecode(any Error)
-  case noData
 }
 
 public enum ResponseError: NetworkError {
-  case unhandled(error: (any Error)?)
+  case invalidResponse
   case invalidStatusCode(Int)
 }

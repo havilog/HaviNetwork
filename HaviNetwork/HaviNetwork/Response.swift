@@ -7,14 +7,12 @@
 
 import Foundation
 
-struct Response {
-  let data: Data?
-  let response: URLResponse?
-  let error: (any Error)?
+public struct Response {
+  public let data: Data
+  public let response: URLResponse
   
-  init(data: Data?, response: URLResponse?, error: (any Error)?) {
+  public init(data: Data, response: URLResponse) {
     self.data = data
     self.response = response
-    self.error = error
   }
 }

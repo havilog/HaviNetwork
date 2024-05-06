@@ -33,4 +33,21 @@ final class URLConvertibleTests: XCTestCase {
       XCTFail()
     }
   } 
+  
+  func test_잘못된_urlString을_넣을경우_에러() {
+    let invalidURLString = ""
+    do {
+      _ = try invalidURLString.asURL()
+      XCTFail()
+    }
+    catch {
+      guard 
+        let configurationError = error as? ConfigurationError,
+        case let .invalidURL(urlConvertible) = configurationError,
+        let urlString = urlConvertible as? String
+      else { XCTFail(); return }
+      
+      XCTAssertEqual(urlString, invalidURLString)
+    }
+  }
 }
