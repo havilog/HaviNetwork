@@ -10,7 +10,7 @@ import Foundation
 public protocol ParameterEncodable {
   func encode(
     request: URLRequest,
-    with parameters: HaviNetwork.Parameters?
+    with parameters: Parameters?
   ) throws -> URLRequest
 }
 
@@ -18,13 +18,13 @@ public struct URLParameterEncoder: ParameterEncodable {
   public init() { }
   public func encode(
     request: URLRequest,
-    with parameters: HaviNetwork.Parameters?
+    with parameters: Parameters?
   ) throws -> URLRequest {
     guard let parameters else { return request }
     var request = request
     guard 
       let url = request.url 
-    else { throw HaviNetwork.EncodingError.missingURL }
+    else { throw EncodingError.missingURL }
     guard 
       var urlComponents = URLComponents(
         url: url,
@@ -52,20 +52,20 @@ public struct JSONParameterEncoder: ParameterEncodable {
   public init() { }
   public func encode(
     request: URLRequest,
-    with parameters: HaviNetwork.Parameters?
+    with parameters: Parameters?
   ) throws -> URLRequest {
     guard let parameters else { return request }
     var request = request
     guard 
       JSONSerialization.isValidJSONObject(parameters) 
-    else { throw HaviNetwork.EncodingError.invalidJSON }
+    else { throw EncodingError.invalidJSON }
     
     do {
       let data: Data = try JSONSerialization.data(withJSONObject: parameters)
       request.httpBody = data
     }
     catch {
-      throw HaviNetwork.EncodingError.jsonEncodingFailed
+      throw EncodingError.jsonEncodingFailed
     }
     return request
   }

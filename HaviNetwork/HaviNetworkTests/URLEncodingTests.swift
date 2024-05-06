@@ -26,7 +26,7 @@ final class URLEncodingTests: XCTestCase {
   
   func test_nil() {
     // given
-    let parameter: HaviNetwork.Parameters? = nil
+    let parameter: Parameters? = nil
     
     do {
       // when
@@ -42,7 +42,7 @@ final class URLEncodingTests: XCTestCase {
   
   func test_empty() {
     // given
-    let parameter: HaviNetwork.Parameters = .init()
+    let parameter: Parameters = .init()
     
     do {
       // when
@@ -58,7 +58,7 @@ final class URLEncodingTests: XCTestCase {
   
   func test_단일_파라미터() {
     // given
-    let parameter: HaviNetwork.Parameters = ["key": "value"]
+    let parameter: Parameters = ["key": "value"]
     
     do {
       // when
@@ -82,7 +82,7 @@ final class URLEncodingTests: XCTestCase {
     urlComponents.query = "existingKey=existingValue"
     mutableURLRequest.url = urlComponents.url
     
-    let paramter: HaviNetwork.Parameters = ["newKey": "newValue"]
+    let paramter: Parameters = ["newKey": "newValue"]
     
     do {
       // when
@@ -101,7 +101,7 @@ final class URLEncodingTests: XCTestCase {
   
   func test_여러개의_파라미터가_잘_인코딩되는지() {
     // given
-    let paramter: HaviNetwork.Parameters = [
+    let paramter: Parameters = [
       "key1": "value1",
       "key2": "value2",
       "key3": "value3",

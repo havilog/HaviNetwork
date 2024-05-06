@@ -19,20 +19,20 @@ final class HeaderTests: XCTestCase {
   }
   
   func test_Dictionary로_잘_변환되는지() {
-    let sut: [HaviNetwork.Header] = [.init(key: "key", value: "value")]
+    let sut: [Header] = [.init(key: "key", value: "value")]
     let expected: [String: String] = ["key": "value"]
     
     XCTAssertEqual(expected, sut.dictionary)
   }
   
   func test_DictionaryString으로_잘_변환되는지() {
-    let sut: HaviNetwork.Header = .init(key: "key", value: "value")
+    let sut: Header = .init(key: "key", value: "value")
     let expected: String = "key: value"
     XCTAssertEqual(expected, sut.toDictionaryString)
   }
   
   func test_하나의_header가_잘_set_되는지() {
-    let header: HaviNetwork.Header = .init(key: "key", value: "value")
+    let header: Header = .init(key: "key", value: "value")
     
     let url: URL = .init(string: "https://www.naver.com")!
     var urlRequest: URLRequest = .init(url: url)
@@ -47,10 +47,10 @@ final class HeaderTests: XCTestCase {
   }
   
   func test_여러개의_Headers가_잘_set_되는지() {
-    let header1: HaviNetwork.Header = .init(key: "key1", value: "value1")
-    let header2: HaviNetwork.Header = .init(key: "key2", value: "value2")
+    let header1: Header = .init(key: "key1", value: "value1")
+    let header2: Header = .init(key: "key2", value: "value2")
     
-    let headers: [HaviNetwork.Header] = [header1, header2]
+    let headers: [Header] = [header1, header2]
     
     let url: URL = .init(string: "https://www.naver.com")!
     var urlRequest: URLRequest = .init(url: url)

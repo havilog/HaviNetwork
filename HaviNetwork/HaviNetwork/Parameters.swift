@@ -7,6 +7,4 @@
 
 import Foundation
 
-extension HaviNetwork {
-  public typealias Parameters = [String: Any]
-}
+public typealias Parameters = [String: Any]

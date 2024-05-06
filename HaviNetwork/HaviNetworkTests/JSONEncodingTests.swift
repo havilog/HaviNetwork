@@ -26,7 +26,7 @@ final class JSONEncodingTests: XCTestCase {
   
   func test_nil() {
     // given
-    let parameter: HaviNetwork.Parameters? = nil
+    let parameter: Parameters? = nil
     
     do {
       // when
@@ -42,7 +42,7 @@ final class JSONEncodingTests: XCTestCase {
   
   func test_empty() {
     // given
-    let parameter: HaviNetwork.Parameters? = .init()
+    let parameter: Parameters? = .init()
     
     do {
       // when
@@ -58,7 +58,7 @@ final class JSONEncodingTests: XCTestCase {
   
   func test_단일_파라미터() {
     // given
-    let parameter: HaviNetwork.Parameters = ["key": "value"]
+    let parameter: Parameters = ["key": "value"]
     
     do {
       // when
@@ -74,7 +74,7 @@ final class JSONEncodingTests: XCTestCase {
   
   func test_다중_파라미터() {
     // given
-    let parameter: HaviNetwork.Parameters = [
+    let parameter: Parameters = [
       "key1": "value1",
       "key2": "value2",
     ]

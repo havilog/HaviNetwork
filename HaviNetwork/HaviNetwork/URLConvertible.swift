@@ -15,7 +15,7 @@ extension String: URLConvertible {
   public func asURL() throws -> URL {
     guard 
       let url = URL(string: self) 
-    else { throw HaviNetwork.ConfigurationError.invalidURL(self) }
+    else { throw ConfigurationError.invalidURL(self) }
     return url
   } 
 }
