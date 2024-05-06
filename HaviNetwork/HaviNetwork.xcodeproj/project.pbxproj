@@ -13,6 +13,12 @@
 		400AB5B02BE8C825006A2AAB /* HaviNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5AF2BE8C825006A2AAB /* HaviNetwork.swift */; };
 		400AB5B22BE8C83C006A2AAB /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5B12BE8C83C006A2AAB /* Header.swift */; };
 		400AB5B42BE8C8A0006A2AAB /* HeaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5B32BE8C8A0006A2AAB /* HeaderTests.swift */; };
+		400AB5B62BE8CDA0006A2AAB /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5B52BE8CDA0006A2AAB /* HTTPMethod.swift */; };
+		400AB5B82BE8CDB7006A2AAB /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5B72BE8CDB7006A2AAB /* Parameters.swift */; };
+		400AB5BA2BE8CDCF006A2AAB /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5B92BE8CDCF006A2AAB /* Error.swift */; };
+		400AB5BC2BE8CECF006A2AAB /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5BB2BE8CECF006A2AAB /* URLConvertible.swift */; };
+		400AB5BE2BE8CF44006A2AAB /* ParameterEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5BD2BE8CF44006A2AAB /* ParameterEncodable.swift */; };
+		400AB5C02BE8D10A006A2AAB /* URLEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AB5BF2BE8D10A006A2AAB /* URLEncodingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +39,12 @@
 		400AB5AF2BE8C825006A2AAB /* HaviNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaviNetwork.swift; sourceTree = "<group>"; };
 		400AB5B12BE8C83C006A2AAB /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		400AB5B32BE8C8A0006A2AAB /* HeaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTests.swift; sourceTree = "<group>"; };
+		400AB5B52BE8CDA0006A2AAB /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		400AB5B72BE8CDB7006A2AAB /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		400AB5B92BE8CDCF006A2AAB /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		400AB5BB2BE8CECF006A2AAB /* URLConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConvertible.swift; sourceTree = "<group>"; };
+		400AB5BD2BE8CF44006A2AAB /* ParameterEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncodable.swift; sourceTree = "<group>"; };
+		400AB5BF2BE8D10A006A2AAB /* URLEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLEncodingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +90,11 @@
 				400AB59A2BE8C7E5006A2AAB /* HaviNetwork.h */,
 				400AB5AF2BE8C825006A2AAB /* HaviNetwork.swift */,
 				400AB5B12BE8C83C006A2AAB /* Header.swift */,
+				400AB5B52BE8CDA0006A2AAB /* HTTPMethod.swift */,
+				400AB5B72BE8CDB7006A2AAB /* Parameters.swift */,
+				400AB5B92BE8CDCF006A2AAB /* Error.swift */,
+				400AB5BB2BE8CECF006A2AAB /* URLConvertible.swift */,
+				400AB5BD2BE8CF44006A2AAB /* ParameterEncodable.swift */,
 			);
 			path = HaviNetwork;
 			sourceTree = "<group>";
@@ -87,6 +104,7 @@
 			children = (
 				400AB5A42BE8C7E5006A2AAB /* HaviNetworkTests.swift */,
 				400AB5B32BE8C8A0006A2AAB /* HeaderTests.swift */,
+				400AB5BF2BE8D10A006A2AAB /* URLEncodingTests.swift */,
 			);
 			path = HaviNetworkTests;
 			sourceTree = "<group>";
@@ -202,7 +220,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				400AB5B22BE8C83C006A2AAB /* Header.swift in Sources */,
+				400AB5BC2BE8CECF006A2AAB /* URLConvertible.swift in Sources */,
 				400AB5B02BE8C825006A2AAB /* HaviNetwork.swift in Sources */,
+				400AB5B62BE8CDA0006A2AAB /* HTTPMethod.swift in Sources */,
+				400AB5BA2BE8CDCF006A2AAB /* Error.swift in Sources */,
+				400AB5B82BE8CDB7006A2AAB /* Parameters.swift in Sources */,
+				400AB5BE2BE8CF44006A2AAB /* ParameterEncodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				400AB5B42BE8C8A0006A2AAB /* HeaderTests.swift in Sources */,
+				400AB5C02BE8D10A006A2AAB /* URLEncodingTests.swift in Sources */,
 				400AB5A52BE8C7E5006A2AAB /* HaviNetworkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
