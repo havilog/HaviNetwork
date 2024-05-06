@@ -36,13 +36,13 @@ final class DataRequestTests: XCTestCase {
       throw DecodingError.failedToDecode(NSError(domain: "123", code: 123))
     }
     sut = .init(
-      session: mockNetwork,
+      session: mockNetwork, 
       endpoint: MockEndpoint(),
       interceptors: []
     )
     
     do {
-      let mockResponse: MockResponse = try await sut.response()
+      let _: MockResponse = try await sut.response()
       XCTFail("this test should throw")
     }
     catch {
