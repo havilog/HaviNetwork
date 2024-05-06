@@ -14,7 +14,7 @@ public protocol ParameterEncodable {
   ) throws -> URLRequest
 }
 
-public struct URLEncoding: ParameterEncodable {
+public struct URLParameterEncoder: ParameterEncodable {
   public init() { }
   public func encode(
     request: URLRequest,
@@ -48,7 +48,7 @@ public struct URLEncoding: ParameterEncodable {
   }
 }
 
-public struct JSONEncoding: ParameterEncodable {
+public struct JSONParameterEncoder: ParameterEncodable {
   public init() { }
   public func encode(
     request: URLRequest,

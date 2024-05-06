@@ -16,7 +16,7 @@ final class URLEncodingTests: XCTestCase {
   
   override func setUp() async throws {
     try await super.setUp()
-    sut = URLEncoding()
+    sut = URLParameterEncoder()
   }
   
   override func tearDown() async throws {
@@ -30,10 +30,10 @@ final class URLEncodingTests: XCTestCase {
     
     do {
       // when
-      _ = try sut.encode(request: urlRequest, with: parameter)
+      let result = try sut.encode(request: urlRequest, with: parameter)
       
       // then
-      XCTAssertNil(urlRequest.url?.query)
+      XCTAssertNil(result.url?.query)
     }
     catch {
       XCTFail()
@@ -46,10 +46,10 @@ final class URLEncodingTests: XCTestCase {
     
     do {
       // when
-      _ = try sut.encode(request: urlRequest, with: parameter)
+      let result = try sut.encode(request: urlRequest, with: parameter)
       
       // then
-      XCTAssertNil(urlRequest.url?.query)
+      XCTAssertEqual(result.url?.query, "")
     }
     catch {
       XCTFail()
@@ -58,11 +58,11 @@ final class URLEncodingTests: XCTestCase {
   
   func test_단일_파라미터() {
     // given
-    let paramter: HaviNetwork.Parameters = ["key": "value"]
+    let parameter: HaviNetwork.Parameters = ["key": "value"]
     
     do {
       // when
-      let result = try sut.encode(request: urlRequest, with: paramter)
+      let result = try sut.encode(request: urlRequest, with: parameter)
       
       // then
       XCTAssertEqual(
