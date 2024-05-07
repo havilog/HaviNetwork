@@ -28,3 +28,21 @@ struct MockEndpoint: URLRequestConfigurable {
   var headers: [Header]? = nil
   var encoder: ParameterEncodable = URLParameterEncoder()
 }
+
+struct MockInterceptor: Interceptor {
+  var adaptHandler: (URLRequest) async throws -> URLRequest = { urlRequest in return urlRequest }
+  var retryHandler: (URLRequest, URLResponse?, Data?, any Error) async -> (URLRequest, RetryResult) = { urlRequest, _, _, error in return (urlRequest, .doNotRetry(with: error)) }
+  
+  func adapt(urlRequest: URLRequest) async throws -> URLRequest {
+    return try await adaptHandler(urlRequest)
+  }
+  
+  func retry(
+    urlRequest: URLRequest,
+    response: URLResponse?,
+    data: Data?,
+    with error: any Error
+  ) async -> (URLRequest, RetryResult) {
+    return await retryHandler(urlRequest, response, data, error)
+  }
+}

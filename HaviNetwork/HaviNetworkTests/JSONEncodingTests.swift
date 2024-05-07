@@ -78,18 +78,15 @@ final class JSONEncodingTests: XCTestCase {
       "key1": "value1",
       "key2": "value2",
     ]
+    let expected: String = "{\"key1\":\"value1\",\"key2\":\"value2\"}"
     
     do {
       // when
       let result = try sut.encode(request: urlRequest, with: parameter)
       
-      let candidate1: String = "{\"key1\":\"value1\",\"key2\":\"value2\"}"
-      let candidate2: String = "{\"key2\":\"value2\",\"key1\":\"value1\"}"
-      let candidates: [String] = [candidate1, candidate2]
-      
       // then
       if let httpBody = result.httpBody?.asString {
-        XCTAssertTrue(candidates.contains(httpBody))
+        XCTAssertEqual(expected, httpBody)
       } else {
         XCTFail()
       }

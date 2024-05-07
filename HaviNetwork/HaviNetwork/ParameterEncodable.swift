@@ -61,7 +61,7 @@ public struct JSONParameterEncoder: ParameterEncodable {
     else { throw EncodingError.invalidJSON }
     
     do {
-      let data: Data = try JSONSerialization.data(withJSONObject: parameters)
+      let data: Data = try JSONSerialization.data(withJSONObject: parameters, options: .sortedKeys)
       request.httpBody = data
     }
     catch {
