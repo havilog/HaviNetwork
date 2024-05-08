@@ -24,55 +24,40 @@ final class JSONEncodingTests: XCTestCase {
     sut = .none
   }
   
-  func test_nil() {
+  func test_nil() throws {
     // given
     let parameter: Parameters? = nil
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameter)
-      
-      // then
-      XCTAssertNil(result.httpBody)
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameter)
+    
+    // then
+    XCTAssertNil(result.httpBody)
   }
   
-  func test_empty() {
+  func test_empty() throws {
     // given
     let parameter: Parameters? = .init()
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameter)
-      
-      // then
-      XCTAssertEqual(result.httpBody?.asString, "{}")
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameter)
+    
+    // then
+    XCTAssertEqual(result.httpBody?.asString, "{}")
   }
   
-  func test_단일_파라미터() {
+  func test_단일_파라미터() throws {
     // given
     let parameter: Parameters = ["key": "value"]
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameter)
-      
-      // then
-      XCTAssertEqual(result.httpBody?.asString, "{\"key\":\"value\"}")
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameter)
+    
+    // then
+    XCTAssertEqual(result.httpBody?.asString, "{\"key\":\"value\"}")
   }
   
-  func test_다중_파라미터() {
+  func test_다중_파라미터() throws {
     // given
     let parameter: Parameters = [
       "key1": "value1",
@@ -80,18 +65,13 @@ final class JSONEncodingTests: XCTestCase {
     ]
     let expected: String = "{\"key1\":\"value1\",\"key2\":\"value2\"}"
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameter)
-      
-      // then
-      if let httpBody = result.httpBody?.asString {
-        XCTAssertEqual(expected, httpBody)
-      } else {
-        XCTFail()
-      }
-    }
-    catch {
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameter)
+    
+    // then
+    if let httpBody = result.httpBody?.asString {
+      XCTAssertEqual(expected, httpBody)
+    } else {
       XCTFail()
     }
   }
@@ -107,14 +87,14 @@ final class JSONEncodingTests: XCTestCase {
         "c": [3, 3, 3]
       ]
     ]
-
+    
     // when
     let request = try sut.encode(request: urlRequest, with: parameters)
-
+    
     // then
     XCTAssertNil(request.url?.query)
     XCTAssertNotNil(request.httpBody)
-
+    
     XCTAssertEqual(try request.httpBody?.asJSONObject() as? NSObject,
                    parameters as NSObject,
                    "Decoded request body and parameters should be equal.")

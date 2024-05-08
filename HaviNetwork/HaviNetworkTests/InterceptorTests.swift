@@ -47,12 +47,4 @@ final class InterceptorTests: XCTestCase {
       ]
     )
   }
-  
-  func test_interceptor에서_에러를_retry할_수_있다() async throws {
-    let mockInterceptor: MockInterceptor = .init { urlRequest, urlResponse, data, error in
-      return (urlRequest, .retry)
-    }
-    
-    // TODO: 내일 하자
-  }
 }

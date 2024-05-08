@@ -24,58 +24,43 @@ final class URLEncodingTests: XCTestCase {
     sut = .none
   }
   
-  func test_nil() {
+  func test_nil() throws {
     // given
     let parameter: Parameters? = nil
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameter)
-      
-      // then
-      XCTAssertNil(result.url?.query)
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameter)
+    
+    // then
+    XCTAssertNil(result.url?.query)
   }
   
-  func test_empty() {
+  func test_empty() throws {
     // given
     let parameter: Parameters = .init()
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameter)
-      
-      // then
-      XCTAssertEqual(result.url?.query, "")
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameter)
+    
+    // then
+    XCTAssertEqual(result.url?.query, "")
   }
   
-  func test_단일_파라미터() {
+  func test_단일_파라미터() throws {
     // given
     let parameter: Parameters = ["key": "value"]
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameter)
-      
-      // then
-      XCTAssertEqual(
-        result.url?.query(),
-        "key=value"
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameter)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.query(),
+      "key=value"
+    )
   }
   
-  func test_기존_파라미터에_단일_파라미터_추가() {
+  func test_기존_파라미터에_단일_파라미터_추가() throws {
     // given
     var mutableURLRequest = urlRequest
     var urlComponents = URLComponents(url: mutableURLRequest.url!, resolvingAgainstBaseURL: false)!
@@ -84,22 +69,17 @@ final class URLEncodingTests: XCTestCase {
     
     let paramter: Parameters = ["newKey": "newValue"]
     
-    do {
-      // when
-      let result = try sut.encode(request: mutableURLRequest, with: paramter)
-      
-      // then
-      XCTAssertEqual(
-        result.url?.query(),
-        "existingKey=existingValue&newKey=newValue"
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: mutableURLRequest, with: paramter)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.query(),
+      "existingKey=existingValue&newKey=newValue"
+    )
   }
   
-  func test_여러개의_파라미터가_잘_인코딩되는지() {
+  func test_여러개의_파라미터가_잘_인코딩되는지() throws {
     // given
     let paramter: Parameters = [
       "key1": "value1",
@@ -107,119 +87,89 @@ final class URLEncodingTests: XCTestCase {
       "key3": "value3",
     ]
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: paramter)
-      
-      // then
-      let separatedResult = Set<String>(
-        (result.url?.query()?.split(separator: "&").map(String.init))!
-      )
-      XCTAssertEqual(
-        separatedResult,
-        Set<String>([
-          "key1=value1",
-          "key2=value2",
-          "key3=value3"
-        ])
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: paramter)
+    
+    // then
+    let separatedResult = Set<String>(
+      (result.url?.query()?.split(separator: "&").map(String.init))!
+    )
+    XCTAssertEqual(
+      separatedResult,
+      Set<String>([
+        "key1=value1",
+        "key2=value2",
+        "key3=value3"
+      ])
+    )
   }
   
-  func test_물음표가_들어간_경우() {
+  func test_물음표가_들어간_경우() throws {
     // given
     let parameters = ["?foo?": "?bar?"]
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameters)
-      
-      // then
-      XCTAssertEqual(
-        result.url?.query(),
-        "?foo?=?bar?"
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameters)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.query(),
+      "?foo?=?bar?"
+    )
   }
   
-  func test_띄워쓰기가_들어간_경우() {
+  func test_띄워쓰기가_들어간_경우() throws {
     // given
     let parameters = [" foo ": " bar "]
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameters)
-      
-      // then
-      XCTAssertEqual(
-        result.url?.query(),
-        "%20foo%20=%20bar%20"
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameters)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.query(),
+      "%20foo%20=%20bar%20"
+    )
   }
   
-  func test_허용된_캐릭터셋이_들어간_경우() {
+  func test_허용된_캐릭터셋이_들어간_경우() throws {
     // given
     let parameters = ["allowed": "?/"]
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameters)
-      
-      // then
-      XCTAssertEqual(
-        result.url?.query(),
-        "allowed=?/"
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameters)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.query(),
+      "allowed=?/"
+    )
   }
   
-  func test_허용되지_않은_캐릭터셋이_들어갈_경우() {
+  func test_허용되지_않은_캐릭터셋이_들어갈_경우() throws {
     // given
     let parameters = ["illegal": " \"#%<>[]\\^`{}|"]
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameters)
-      
-      // then
-      XCTAssertEqual(
-        result.url?.query(),
-        "illegal=%20%22%23%25%3C%3E%5B%5D%5C%5E%60%7B%7D%7C"
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameters)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.query(),
+      "illegal=%20%22%23%25%3C%3E%5B%5D%5C%5E%60%7B%7D%7C"
+    )
   }
   
-  func test_특수문자와_알파벳이_섞이는_경우() {
+  func test_특수문자와_알파벳이_섞이는_경우() throws {
     // given
     let parameters = ["foo": "/bar/baz/qux"]
     
-    do {
-      // when
-      let result = try sut.encode(request: urlRequest, with: parameters)
-      
-      // then
-      XCTAssertEqual(
-        result.url?.query(),
-        "foo=/bar/baz/qux"
-      )
-    }
-    catch {
-      XCTFail()
-    }
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameters)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.query(),
+      "foo=/bar/baz/qux"
+    )
   }
 } 
