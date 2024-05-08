@@ -112,7 +112,9 @@ final class URLEncodingTests: XCTestCase {
       let result = try sut.encode(request: urlRequest, with: paramter)
       
       // then
-      let separatedResult = Set<String>((result.url?.query()?.split(separator: "&").map(String.init))!)
+      let separatedResult = Set<String>(
+        (result.url?.query()?.split(separator: "&").map(String.init))!
+      )
       XCTAssertEqual(
         separatedResult,
         Set<String>([
@@ -120,6 +122,100 @@ final class URLEncodingTests: XCTestCase {
           "key2=value2",
           "key3=value3"
         ])
+      )
+    }
+    catch {
+      XCTFail()
+    }
+  }
+  
+  func test_물음표가_들어간_경우() {
+    // given
+    let parameters = ["?foo?": "?bar?"]
+    do {
+      // when
+      let result = try sut.encode(request: urlRequest, with: parameters)
+      
+      // then
+      XCTAssertEqual(
+        result.url?.query(),
+        "?foo?=?bar?"
+      )
+    }
+    catch {
+      XCTFail()
+    }
+  }
+  
+  func test_띄워쓰기가_들어간_경우() {
+    // given
+    let parameters = [" foo ": " bar "]
+    
+    do {
+      // when
+      let result = try sut.encode(request: urlRequest, with: parameters)
+      
+      // then
+      XCTAssertEqual(
+        result.url?.query(),
+        "%20foo%20=%20bar%20"
+      )
+    }
+    catch {
+      XCTFail()
+    }
+  }
+  
+  func test_허용된_캐릭터셋이_들어간_경우() {
+    // given
+    let parameters = ["allowed": "?/"]
+    
+    do {
+      // when
+      let result = try sut.encode(request: urlRequest, with: parameters)
+      
+      // then
+      XCTAssertEqual(
+        result.url?.query(),
+        "allowed=?/"
+      )
+    }
+    catch {
+      XCTFail()
+    }
+  }
+  
+  func test_허용되지_않은_캐릭터셋이_들어갈_경우() {
+    // given
+    let parameters = ["illegal": " \"#%<>[]\\^`{}|"]
+    
+    do {
+      // when
+      let result = try sut.encode(request: urlRequest, with: parameters)
+      
+      // then
+      XCTAssertEqual(
+        result.url?.query(),
+        "illegal=%20%22%23%25%3C%3E%5B%5D%5C%5E%60%7B%7D%7C"
+      )
+    }
+    catch {
+      XCTFail()
+    }
+  }
+  
+  func test_특수문자와_알파벳이_섞이는_경우() {
+    // given
+    let parameters = ["foo": "/bar/baz/qux"]
+    
+    do {
+      // when
+      let result = try sut.encode(request: urlRequest, with: parameters)
+      
+      // then
+      XCTAssertEqual(
+        result.url?.query(),
+        "foo=/bar/baz/qux"
       )
     }
     catch {

@@ -33,7 +33,12 @@ public struct URLParameterEncoder: ParameterEncodable {
     else { return request }
     
     let queryItems = parameters
-      .mapValues { "\($0)" }
+      .map { key, value in
+        let stringValue: String = "\(value)"
+        let percentEncodedKey: String = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
+        let percentEncodedValue: String = stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? stringValue
+        return (percentEncodedKey, percentEncodedValue)
+      }
       .compactMap(URLQueryItem.init)
     
     if urlComponents.percentEncodedQueryItems == nil {

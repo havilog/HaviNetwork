@@ -95,4 +95,24 @@ final class JSONEncodingTests: XCTestCase {
       XCTFail()
     }
   }
+  
+  func test_복잡한_파라미터() throws {
+    // given
+    let parameters: [String: Any] = ["foo": "bar",
+                                     "baz": ["a", 1, true],
+                                     "qux": ["a": 1,
+                                             "b": [2, 2],
+                                             "c": [3, 3, 3]]]
+
+    // when
+    let request = try sut.encode(request: urlRequest, with: parameters)
+
+    // then
+    XCTAssertNil(request.url?.query)
+    XCTAssertNotNil(request.httpBody)
+
+    XCTAssertEqual(try request.httpBody?.asJSONObject() as? NSObject,
+                   parameters as NSObject,
+                   "Decoded request body and parameters should be equal.")
+  }
 }
