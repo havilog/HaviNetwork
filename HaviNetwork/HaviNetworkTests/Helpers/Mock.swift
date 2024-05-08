@@ -30,8 +30,12 @@ struct MockEndpoint: URLRequestConfigurable {
 }
 
 struct MockInterceptor: Interceptor {
-  var adaptHandler: (URLRequest) async throws -> URLRequest = { urlRequest in return urlRequest }
-  var retryHandler: (URLRequest, URLResponse?, Data?, any Error) async -> (URLRequest, RetryResult) = { urlRequest, _, _, error in return (urlRequest, .doNotRetry(with: error)) }
+  var adaptHandler: (URLRequest) async throws -> URLRequest = { urlRequest in 
+    return urlRequest 
+  }
+  var retryHandler: (URLRequest, URLResponse?, Data?, any Error) async -> (URLRequest, RetryResult) = { urlRequest, _, _, error in
+    return (urlRequest, .doNotRetry(with: error)) 
+  }
   
   func adapt(urlRequest: URLRequest) async throws -> URLRequest {
     return try await adaptHandler(urlRequest)
