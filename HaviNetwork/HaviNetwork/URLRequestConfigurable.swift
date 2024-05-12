@@ -8,12 +8,12 @@
 import Foundation
 
 public protocol URLRequestConfigurable {
-  var url: URLConvertible { get }
+  var url: any URLConvertible { get }
   var path: String? { get }
   var method: HTTPMethod { get }
   var parameters: Parameters? { get }
   var headers: [Header]? { get }
-  var encoder: ParameterEncodable { get }
+  var encoder: any ParameterEncodable { get }
   func asURLRequest() throws -> URLRequest
 }
 

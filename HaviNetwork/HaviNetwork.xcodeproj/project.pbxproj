@@ -29,6 +29,7 @@
 		401B5E052BE9170A00D953B2 /* NetworkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401B5E042BE9170A00D953B2 /* NetworkSession.swift */; };
 		401B5E072BE922EA00D953B2 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401B5E062BE922EA00D953B2 /* NetworkMonitor.swift */; };
 		401B5E1C2BEA687F00D953B2 /* InterceptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401B5E1B2BEA687F00D953B2 /* InterceptorTests.swift */; };
+		401B5E322BF08D3900D953B2 /* URLRequestConfigurableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401B5E312BF08D3900D953B2 /* URLRequestConfigurableTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		401B5E042BE9170A00D953B2 /* NetworkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSession.swift; sourceTree = "<group>"; };
 		401B5E062BE922EA00D953B2 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		401B5E1B2BEA687F00D953B2 /* InterceptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptorTests.swift; sourceTree = "<group>"; };
+		401B5E312BF08D3900D953B2 /* URLRequestConfigurableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = URLRequestConfigurableTests.swift; path = ../../URLRequestConfigurableTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				400AB5D22BE909CD006A2AAB /* DataRequestTests.swift */,
 				400AB5D42BE90A24006A2AAB /* URLConvertibleTests.swift */,
 				401B5E1B2BEA687F00D953B2 /* InterceptorTests.swift */,
+				401B5E312BF08D3900D953B2 /* URLRequestConfigurableTests.swift */,
 			);
 			path = HaviNetworkTests;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				400AB5B42BE8C8A0006A2AAB /* HeaderTests.swift in Sources */,
 				400AB5C92BE90387006A2AAB /* TestHelpers.swift in Sources */,
 				400AB5C02BE8D10A006A2AAB /* URLEncodingTests.swift in Sources */,
+				401B5E322BF08D3900D953B2 /* URLRequestConfigurableTests.swift in Sources */,
 				400AB5C32BE8EFA7006A2AAB /* JSONEncodingTests.swift in Sources */,
 				401B5E032BE916BD00D953B2 /* Mock.swift in Sources */,
 			);

@@ -14,6 +14,14 @@ public protocol ParameterEncodable {
   ) throws -> URLRequest
 }
 
+extension ParameterEncodable where Self == URLParameterEncoder {
+  public static var url: URLParameterEncoder { return .init() }
+}
+
+extension ParameterEncodable where Self == JSONParameterEncoder {
+  public static var json: JSONParameterEncoder { return .init() }
+}
+
 public struct URLParameterEncoder: ParameterEncodable {
   public init() { }
   public func encode(
