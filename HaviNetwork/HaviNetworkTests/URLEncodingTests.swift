@@ -106,6 +106,38 @@ final class URLEncodingTests: XCTestCase {
     }
   }
   
+  func test_이미_url에_더하기가_있는경우() throws {
+    // given
+    let parameters = ["foo+": "bar+"]
+    let givenURL: URL = .init(string: "https://www.naver.com?existingFoo+=bar")!
+    let urlRequest: URLRequest = .init(url: givenURL)
+    
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameters)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.absoluteString,
+      "https://www.naver.com?existingFoo+=bar&foo+=bar+"
+    )
+  }
+  
+  func test_이미_url에_띄어쓰기가_있는경우() throws {
+    // given
+    let parameters = ["foo ": "bar "]
+    let givenURL: URL = .init(string: "https://www.naver.com?existingFoo+=bar")!
+    let urlRequest: URLRequest = .init(url: givenURL)
+    
+    // when
+    let result = try sut.encode(request: urlRequest, with: parameters)
+    
+    // then
+    XCTAssertEqual(
+      result.url?.absoluteString,
+      "https://www.naver.com?existingFoo+=bar&foo%20=bar%20"
+    )
+  }
+  
   func test_물음표가_들어간_경우() throws {
     // given
     let parameters = ["?foo?": "?bar?"]
