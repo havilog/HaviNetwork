@@ -81,27 +81,29 @@ final class URLEncodingTests: XCTestCase {
   
   func test_여러개의_파라미터가_잘_인코딩되는지() throws {
     // given
-    let paramter: Parameters = [
+    let parameters: Parameters = [
       "key1": "value1",
       "key2": "value2",
-      "key3": "value3",
+      "key3": "value3"
     ]
     
     // when
-    let result = try sut.encode(request: urlRequest, with: paramter)
+    let result = try sut.encode(request: urlRequest, with: parameters)
     
     // then
-    let separatedResult = Set<String>(
-      (result.url?.query()?.split(separator: "&").map(String.init))!
-    )
-    XCTAssertEqual(
-      separatedResult,
-      Set<String>([
-        "key1=value1",
-        "key2=value2",
-        "key3=value3"
-      ])
-    )
+    guard 
+      let url = result.url,
+      let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+    else { XCTFail(); return }
+    let encodedItems = queryItems.map { "\($0.name)=\($0.value!)" }
+    
+    let expectedItems = ["key1=value1", "key2=value2", "key3=value3"]
+    XCTAssertEqual(encodedItems.count, expectedItems.count)
+    
+    // Assert each key-value pair individually
+    for expectedItem in expectedItems {
+      XCTAssertTrue(encodedItems.contains(expectedItem))
+    }
   }
   
   func test_물음표가_들어간_경우() throws {
