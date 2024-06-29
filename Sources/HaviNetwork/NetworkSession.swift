@@ -7,8 +7,10 @@
 
 import Foundation
 
+#if !os(macOS)
 public protocol NetworkSession {
   func data(for request: URLRequest) async throws -> (Data, URLResponse)
 }
 
 extension URLSession: NetworkSession { }
+#endif

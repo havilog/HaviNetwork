@@ -7,6 +7,7 @@
 
 import Foundation
 
+#if !os(macOS)
 public final class DataRequest {
   private let session: any NetworkSession
   private let monitor: (any NetworkMonitorable)?
@@ -83,3 +84,4 @@ public final class DataRequest {
 fileprivate extension Int {
   var isValid: Bool { return (200..<300).contains(self) }
 }
+#endif

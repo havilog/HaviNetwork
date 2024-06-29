@@ -7,6 +7,7 @@
 
 import Foundation
 
+#if !os(macOS)
 public protocol NetworkMonitorable {
   func willRequest(_ request: URLRequest)
   func didReceive(data: Data, response: URLResponse)
@@ -54,3 +55,4 @@ public struct NetworkMonitor: NetworkMonitorable {
     return formatter.string(from: .now)
   }
 }
+#endif

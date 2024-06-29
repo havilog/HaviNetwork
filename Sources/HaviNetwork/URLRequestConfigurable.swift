@@ -7,6 +7,7 @@
 
 import Foundation
 
+#if !os(macOS)
 public protocol URLRequestConfigurable {
   var url: any URLConvertible { get }
   var path: String? { get }
@@ -27,3 +28,4 @@ extension URLRequestConfigurable {
     return try encoder.encode(request: request, with: parameters)
   }
 }
+#endif
