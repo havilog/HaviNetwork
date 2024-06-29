@@ -1,5 +1,13 @@
 ### macOS ###
 
+# SPM
+/.swiftpm
+/.build
+/Packages
+/*.xcodeproj
+/*.swiftinterface
+
+
 # General
 .DS_Store
 .AppleDouble
