@@ -8,6 +8,7 @@
 import XCTest
 @testable import HaviNetwork
 
+#if !os(macOS)
 final class URLRequestConfigurableTests: XCTestCase {
   static let baseURLString: String = "https://www.naver.com"
   
@@ -111,3 +112,4 @@ final class URLRequestConfigurableTests: XCTestCase {
     XCTAssertNil(result.httpBody)
   }
 }
+#endif

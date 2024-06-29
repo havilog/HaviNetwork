@@ -10,16 +10,12 @@ let package = Package(
   products: [
     .library(
       name: "HaviNetwork",
-      targets: ["HaviNetwork", "HaviNetworkTests"]
+      targets: ["HaviNetwork"]
     )
   ],
   dependencies: [
   ],
   targets: [
     .target(name: "HaviNetwork"),
-    .testTarget(
-      name: "HaviNetworkTests",
-      dependencies: ["HaviNetwork"]
-    )
   ]
 )

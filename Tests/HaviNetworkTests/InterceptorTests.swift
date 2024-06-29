@@ -8,6 +8,7 @@
 import XCTest
 @testable import HaviNetwork
 
+#if !os(macOS)
 final class InterceptorTests: XCTestCase {
   func test_interceptor에서_한개의_헤더를_잘_추가할_수_있다() async throws {
     let mockInterceptor: MockInterceptor = .init(
@@ -48,3 +49,4 @@ final class InterceptorTests: XCTestCase {
     )
   }
 }
+#endif

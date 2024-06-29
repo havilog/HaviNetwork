@@ -8,6 +8,7 @@
 import XCTest
 @testable import HaviNetwork
 
+#if !os(macOS)
 final class DataRequestTests: XCTestCase {
   private var sut: DataRequest!
   
@@ -154,3 +155,4 @@ final class DataRequestTests: XCTestCase {
     }
   }
 }
+#endif

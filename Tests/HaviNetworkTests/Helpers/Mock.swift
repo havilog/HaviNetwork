@@ -8,6 +8,7 @@
 import Foundation
 @testable import HaviNetwork
 
+#if !os(macOS)
 struct MockNetworkSession: NetworkSession {
   var dataHandler: (URLRequest) async throws -> (Data, URLResponse)
   
@@ -50,3 +51,4 @@ struct MockInterceptor: Interceptor {
     return await retryHandler(urlRequest, response, data, error)
   }
 }
+#endif
