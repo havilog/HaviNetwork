@@ -13,7 +13,7 @@ public enum RetryResult {
 }
 
 public protocol Interceptor {
-  func adapt(urlRequest: URLRequest) async throws -> URLRequest
+  func adapt(urlRequest: URLRequest) async throws(Errors) -> URLRequest
   func retry(
     urlRequest: URLRequest, 
     response: URLResponse?,

@@ -17,5 +17,9 @@ let package = Package(
   ],
   targets: [
     .target(name: "HaviNetwork"),
+    .testTarget(
+      name: "HaviNetworkTests", 
+      dependencies: ["HaviNetwork"]
+    )
   ]
 )

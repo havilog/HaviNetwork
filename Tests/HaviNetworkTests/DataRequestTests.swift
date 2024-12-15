@@ -48,7 +48,7 @@ final class DataRequestTests: XCTestCase {
     }
     catch {
       guard 
-        let configurationError = error as? ConfigurationError,
+        case let .configuration(configurationError) = error,
         case let .invalidURL(urlConvertible) = configurationError,
         let urlString = urlConvertible as? String
       else { XCTFail();return }
@@ -73,9 +73,12 @@ final class DataRequestTests: XCTestCase {
       XCTFail("this test should throw")
     }
     catch {
-      let nsError = error as NSError
-      XCTAssertEqual(nsError.domain, "123")
-      XCTAssertEqual(nsError.code, 123)
+      guard 
+        case let .session(sessionError) = error,
+        case .dataRequestFailed = sessionError
+      else { 
+        XCTFail(); return
+      }
     }
   }
   
@@ -99,10 +102,9 @@ final class DataRequestTests: XCTestCase {
     }
     catch {
       guard 
-        let decodingError = error as? DecodingError,
-        case let .failedToDecode(anyError) = decodingError,
-        let decodeError = anyError as? Swift.DecodingError,
-        case .dataCorrupted = decodeError
+        case let .decoding(decodingError) = error,
+        case let .failedToDecode(decodingError) = decodingError,
+        case .dataCorrupted = decodingError
       else { XCTFail();return }
     }
   }
@@ -125,9 +127,9 @@ final class DataRequestTests: XCTestCase {
     }
     catch {
       guard 
-        let responseError = error as? ResponseError,
-        case .invalidStatusCode(let statusCode) = responseError
-      else { XCTFail();return }
+        case let .response(responseError) = error,
+        case let .invalidStatusCode(statusCode) = responseError
+      else { XCTFail(); return }
       
       XCTAssertEqual(statusCode, testErrorResponse.statusCode) 
     }
@@ -149,7 +151,7 @@ final class DataRequestTests: XCTestCase {
     }
     catch {
       guard 
-        let responseError = error as? ResponseError,
+        case let .response(responseError) = error,
         case .invalidResponse = responseError
       else { XCTFail();return }
     }

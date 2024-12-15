@@ -11,7 +11,7 @@ public protocol ParameterEncodable {
   func encode(
     request: URLRequest,
     with parameters: Parameters?
-  ) throws -> URLRequest
+  ) throws(Errors.Encoding) -> URLRequest
 }
 
 extension ParameterEncodable where Self == URLParameterEncoder {
@@ -27,12 +27,15 @@ public struct URLParameterEncoder: ParameterEncodable {
   public func encode(
     request: URLRequest,
     with parameters: Parameters?
-  ) throws -> URLRequest {
+  ) throws(Errors.Encoding) -> URLRequest {
+    
     guard let parameters else { return request }
     var request = request
+    
     guard 
       let url = request.url 
-    else { throw EncodingError.missingURL }
+    else { throw Errors.Encoding.missingURL }
+    
     guard 
       var urlComponents = URLComponents(
         url: url,
@@ -66,19 +69,19 @@ public struct JSONParameterEncoder: ParameterEncodable {
   public func encode(
     request: URLRequest,
     with parameters: Parameters?
-  ) throws -> URLRequest {
+  ) throws(Errors.Encoding) -> URLRequest {
     guard let parameters else { return request }
     var request = request
     guard 
       JSONSerialization.isValidJSONObject(parameters) 
-    else { throw EncodingError.invalidJSON }
+    else { throw Errors.Encoding.invalidJSON }
     
     do {
       let data: Data = try JSONSerialization.data(withJSONObject: parameters, options: .sortedKeys)
       request.httpBody = data
     }
     catch {
-      throw EncodingError.jsonEncodingFailed
+      throw Errors.Encoding.jsonEncodingFailed
     }
     return request
   }

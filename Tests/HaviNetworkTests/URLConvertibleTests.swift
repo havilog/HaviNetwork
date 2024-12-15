@@ -42,8 +42,7 @@ final class URLConvertibleTests: XCTestCase {
     }
     catch {
       guard 
-        let configurationError = error as? ConfigurationError,
-        case let .invalidURL(urlConvertible) = configurationError,
+        case let .invalidURL(urlConvertible) = error,
         let urlString = urlConvertible as? String
       else { XCTFail(); return }
       

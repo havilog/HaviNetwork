@@ -18,24 +18,24 @@ public struct NetworkMonitor: NetworkMonitorable {
   public static let shared: Self = .init()
   
   public func willRequest(_ request: URLRequest) {
-#if DEBUG
+    #if DEBUG
     print(payload(message: request.url?.absoluteString ?? ""))
-#endif
+    #endif
   }
   
   public func didReceive(data: Data, response: URLResponse) {
     if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
        let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
-#if DEBUG
+    #if DEBUG
       print(payload(message: String(decoding: jsonData, as: UTF8.self)))
-#endif
+    #endif
     }
   }
   
   public func didReceive(error: Error) {
-#if DEBUG
+    #if DEBUG
     print(payload(message: "receive error: \(error)"))
-#endif
+    #endif
   }
   
   private func payload(

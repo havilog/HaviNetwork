@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Header: Hashable {
+public struct Header: Hashable, Sendable {
   public let key: String
   public let value: String
   

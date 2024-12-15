@@ -7,19 +7,19 @@
 
 import Foundation
 
-public protocol URLConvertible {
-  func asURL() throws -> URL
+public protocol URLConvertible: Sendable {
+  func asURL() throws(Errors.Configuration) -> URL
 }
 
 extension String: URLConvertible {
-  public func asURL() throws -> URL {
+  public func asURL() throws(Errors.Configuration) -> URL {
     guard 
       let url = URL(string: self) 
-    else { throw ConfigurationError.invalidURL(self) }
+    else { throw Errors.Configuration.invalidURL(self) }
     return url
   } 
 }
 
 extension URL: URLConvertible {
-  public func asURL() throws -> URL { return self }
+  public func asURL() throws(Errors.Configuration) -> URL { return self }
 }

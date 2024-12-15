@@ -27,7 +27,7 @@ public final class DataRequest {
   }
   
   @MainActor
-  public func response<Model: Decodable>(with decoder: JSONDecoder = .init()) async throws -> Model {
+  public func response<Model: Decodable>(with decoder: JSONDecoder = .init()) async throws(Errors) -> Model {
     do {
       let urlRequest: URLRequest = try await makeURLRequest()
       monitor?.willRequest(urlRequest)
@@ -37,13 +37,29 @@ public final class DataRequest {
       let result: Model = try decode(response, with: decoder)
       return result
     }
-    catch {
+    catch let error as Errors.Session {
+      monitor?.didReceive(error: error)
+      throw .session(error)
+    }
+    catch let error as Errors.Response {
+      monitor?.didReceive(error: error)
+      throw .response(error)
+    }
+    catch let error as Errors.Decoding {
+      monitor?.didReceive(error: error)
+      throw .decoding(error)
+    }
+    catch let error as Errors {
       monitor?.didReceive(error: error)
       throw error
     }
+    catch {
+      monitor?.didReceive(error: error)
+      throw .unknown
+    }
   }
   
-  private func makeURLRequest() async throws -> URLRequest {
+  private func makeURLRequest() async throws(Errors) -> URLRequest {
     var urlRequest: URLRequest = try endpoint.asURLRequest()
     for interceptor in interceptors {
       urlRequest = try await interceptor.adapt(urlRequest: urlRequest)
@@ -51,32 +67,40 @@ public final class DataRequest {
     return urlRequest
   }
   
-  private func fetchResponse(with urlRequest: URLRequest) async throws -> Response {
-    let (data, urlResponse) = try await session.data(for: urlRequest)
-    let response: Response = Response(data: data, response: urlResponse)
-    return response
+  private func fetchResponse(with urlRequest: URLRequest) async throws(Errors.Session) -> Response {
+    do {
+      let (data, urlResponse) = try await session.data(for: urlRequest)
+      let response: Response = Response(data: data, response: urlResponse)
+      return response
+    }
+    catch {
+      throw .dataRequestFailed
+    }
   }
   
-  private func validate(_ response: Response) throws {
+  private func validate(_ response: Response) throws(Errors.Response) {
     guard let httpResponse = response.response as? HTTPURLResponse else {
-      throw ResponseError.invalidResponse
+      throw .invalidResponse
     }
     
     guard httpResponse.statusCode.isValid else {
-      throw ResponseError.invalidStatusCode(httpResponse.statusCode)
+      throw .invalidStatusCode(httpResponse.statusCode)
     }
   }
   
   private func decode<Model: Decodable>(
     _ response: Response,
     with decoder: JSONDecoder
-  ) throws -> Model {
+  ) throws(Errors.Decoding) -> Model {
     do {
       let model = try decoder.decode(Model.self, from: response.data)
       return model
     }
+    catch let error as Swift.DecodingError {
+      throw .failedToDecode(error)
+    }
     catch {
-      throw DecodingError.failedToDecode(error)
+      throw .unknown
     }
   }
 }

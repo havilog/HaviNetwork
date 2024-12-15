@@ -8,7 +8,7 @@
 import Foundation
 
 @frozen
-public enum HTTPMethod: String {
+public enum HTTPMethod: String, Sendable {
   case get = "GET"
   case head = "HEAD"
   case post = "POST"
