@@ -2,23 +2,22 @@
 //  DataRequest.swift
 //  HaviNetwork
 //
-//  Created by 한상진 on 5/6/24.
+//  Created by 한상진 on 12/18/24.
 //
 
 import Foundation
 
-#if !os(macOS)
-public final class DataRequest {
+public final class DataRequest: Sendable {
   private let session: any NetworkSession
   private let monitor: (any NetworkMonitorable)?
   private let endpoint: any URLRequestConfigurable
-  private let interceptors: [Interceptor]
+  private let interceptors: [any Interceptor]
   
   public init(
     session: any NetworkSession,
     monitor: (any NetworkMonitorable)? = NetworkMonitor.shared,
     endpoint: any URLRequestConfigurable,
-    interceptors: [Interceptor]
+    interceptors: [any Interceptor] = []
   ) {
     self.session = session
     self.monitor = monitor
@@ -26,7 +25,6 @@ public final class DataRequest {
     self.interceptors = interceptors
   }
   
-  @MainActor
   public func response<Model: Decodable>(with decoder: JSONDecoder = .init()) async throws(Errors) -> Model {
     do {
       let urlRequest: URLRequest = try await makeURLRequest()
@@ -62,7 +60,12 @@ public final class DataRequest {
   private func makeURLRequest() async throws(Errors) -> URLRequest {
     var urlRequest: URLRequest = try endpoint.asURLRequest()
     for interceptor in interceptors {
-      urlRequest = try await interceptor.adapt(urlRequest: urlRequest)
+      do {
+        urlRequest = try await interceptor.adapt(urlRequest: urlRequest)
+      }
+      catch {
+        throw .intercept(error)
+      }
     }
     return urlRequest
   }
@@ -105,7 +108,16 @@ public final class DataRequest {
   }
 }
 
+extension URLSession {
+  public static let networkSession: any NetworkSession = {
+    let configuration: URLSessionConfiguration = .default
+    configuration.timeoutIntervalForRequest = 10.0
+    configuration.httpMaximumConnectionsPerHost = 5
+    let session: URLSession = .init(configuration: configuration)
+    return session
+  }()
+}
+
 fileprivate extension Int {
   var isValid: Bool { return (200..<300).contains(self) }
 }
-#endif

@@ -2,18 +2,18 @@
 //  Interceptor.swift
 //  HaviNetwork
 //
-//  Created by 한상진 on 5/6/24.
+//  Created by 한상진 on 12/18/24.
 //
 
 import Foundation
 
 public enum RetryResult {
   case retry
-  case doNotRetry(with: Error)
+  case doNotRetry(with: any Error)
 }
 
-public protocol Interceptor {
-  func adapt(urlRequest: URLRequest) async throws(Errors) -> URLRequest
+public protocol Interceptor: Sendable {
+  func adapt(urlRequest: URLRequest) async throws(any Error) -> URLRequest
   func retry(
     urlRequest: URLRequest, 
     response: URLResponse?,

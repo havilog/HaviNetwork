@@ -2,36 +2,29 @@
 //  HeaderTests.swift
 //  HaviNetworkTests
 //
-//  Created by 한상진 on 5/6/24.
+//  Created by 한상진 on 12/18/24.
 //
 
-import XCTest
+import Testing
+import Foundation
 @testable import HaviNetwork
 
-final class HeaderTests: XCTestCase {
+struct HeaderTests {
   
-  override func setUpWithError() throws {
-    try super.setUpWithError()
-  }
-  
-  override func tearDownWithError() throws {
-    try super.tearDownWithError()
-  }
-  
-  func test_Dictionary로_잘_변환되는지() {
+  @Test func Dictionary로_잘_변환되는지() {
     let sut: [Header] = [.init(key: "key", value: "value")]
     let expected: [String: String] = ["key": "value"]
     
-    XCTAssertEqual(expected, sut.dictionary)
+    #expect(expected == sut.dictionary)
   }
   
-  func test_DictionaryString으로_잘_변환되는지() {
+  @Test func DictionaryString으로_잘_변환되는지() {
     let sut: Header = .init(key: "key", value: "value")
     let expected: String = "key: value"
-    XCTAssertEqual(expected, sut.toDictionaryString)
+    #expect(expected == sut.toDictionaryString)
   }
   
-  func test_하나의_header가_잘_set_되는지() {
+  @Test func 하나의_header가_잘_set_되는지() {
     let header: Header = .init(key: "key", value: "value")
     
     let url: URL = .init(string: "https://www.naver.com")!
@@ -41,12 +34,12 @@ final class HeaderTests: XCTestCase {
     
     urlRequest.setHeader(header)
     
-    XCTAssertEqual(urlRequest.allHTTPHeaderFields, expected)
-    XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "key"), "value")
-    XCTAssertEqual(urlRequest.allHTTPHeaderFields?.count, 1)
+    #expect(urlRequest.allHTTPHeaderFields == expected)
+    #expect(urlRequest.value(forHTTPHeaderField: "key") == "value")
+    #expect(urlRequest.allHTTPHeaderFields?.count == 1)
   }
   
-  func test_여러개의_Headers가_잘_set_되는지() {
+  @Test func 여러개의_Headers가_잘_set_되는지() {
     let header1: Header = .init(key: "key1", value: "value1")
     let header2: Header = .init(key: "key2", value: "value2")
     
@@ -62,6 +55,6 @@ final class HeaderTests: XCTestCase {
       "key2": "value2",
     ]
     
-    XCTAssertEqual(urlRequest.allHTTPHeaderFields, expected)
+    #expect(urlRequest.allHTTPHeaderFields == expected)
   }
 }

@@ -2,7 +2,7 @@
 //  ParameterEncodable.swift
 //  HaviNetwork
 //
-//  Created by 한상진 on 5/6/24.
+//  Created by 한상진 on 12/18/24.
 //
 
 import Foundation
@@ -29,7 +29,11 @@ public struct URLParameterEncoder: ParameterEncodable {
     with parameters: Parameters?
   ) throws(Errors.Encoding) -> URLRequest {
     
-    guard let parameters else { return request }
+    guard 
+      let parameters, 
+      parameters.isEmpty == false 
+    else { return request }
+    
     var request = request
     
     guard 
@@ -41,7 +45,7 @@ public struct URLParameterEncoder: ParameterEncodable {
         url: url,
         resolvingAgainstBaseURL: false
       ) 
-    else { return request }
+    else { throw Errors.Encoding.invalidURL(url) }
     
     let queryItems = parameters
       .map { key, value in

@@ -2,14 +2,13 @@
 //  MockNetworkSession.swift
 //  HaviNetworkTests
 //
-//  Created by 한상진 on 5/6/24.
+//  Created by 한상진 on 12/18/24.
 //
 
 import Foundation
-@testable import HaviNetwork
+@testable @preconcurrency import HaviNetwork
 
-#if !os(macOS)
-struct MockNetworkSession: NetworkSession {
+struct MockNetworkSession: NetworkSession, @unchecked Sendable {
   var dataHandler: (URLRequest) async throws -> (Data, URLResponse)
   
   func data(for request: URLRequest) async throws -> (Data, URLResponse) {
@@ -21,8 +20,8 @@ struct MockResponse: Decodable {
   let response: String
 }
 
-struct MockEndpoint: URLRequestConfigurable {
-  var url: URLConvertible = "https://www.naver.com"
+struct MockEndpoint: URLRequestConfigurable, @unchecked Sendable {
+  var url: any URLConvertible = "https://www.naver.com"
   var path: String? = nil
   var method: HTTPMethod = .get
   var parameters: Parameters? = nil
@@ -30,15 +29,15 @@ struct MockEndpoint: URLRequestConfigurable {
   var encoder: ParameterEncodable = URLParameterEncoder()
 }
 
-struct MockInterceptor: Interceptor {
-  var adaptHandler: (URLRequest) async throws(Errors) -> URLRequest = { urlRequest in 
+struct MockInterceptor: Interceptor, @unchecked Sendable {
+  var adaptHandler: (URLRequest) async throws(any Error) -> URLRequest = { urlRequest in 
     return urlRequest 
   }
   var retryHandler: (URLRequest, URLResponse?, Data?, any Error) async -> (URLRequest, RetryResult) = { urlRequest, _, _, error in
     return (urlRequest, .doNotRetry(with: error)) 
   }
   
-  func adapt(urlRequest: URLRequest) async throws(Errors) -> URLRequest {
+  func adapt(urlRequest: URLRequest) async throws(any Error) -> URLRequest {
     return try await adaptHandler(urlRequest)
   }
   
@@ -51,4 +50,3 @@ struct MockInterceptor: Interceptor {
     return await retryHandler(urlRequest, response, data, error)
   }
 }
-#endif

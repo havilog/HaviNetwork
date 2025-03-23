@@ -2,82 +2,60 @@
 //  JSONEncodingTests.swift
 //  HaviNetworkTests
 //
-//  Created by 한상진 on 5/6/24.
+//  Created by 한상진 on 12/18/24.
 //
 
-import XCTest
+import Testing
+import Foundation
 @testable import HaviNetwork
 
-final class JSONEncodingTests: XCTestCase {
-  private var sut: ParameterEncodable!
+struct JSONEncodingTests {
+  private var sut: ParameterEncodable = JSONParameterEncoder()
   private let urlRequest: URLRequest = .init(
     url: .init(string: "https://www.naver.com")!
   )
   
-  override func setUp() async throws {
-    try await super.setUp()
-    sut = JSONParameterEncoder()
-  }
-  
-  override func tearDown() async throws {
-    try await super.tearDown()
-    sut = .none
-  }
-  
-  func test_nil() throws {
-    // given
+  @Test func nil인_파라미터를_인코드_할_수_있다() throws {
     let parameter: Parameters? = nil
     
-    // when
     let result = try sut.encode(request: urlRequest, with: parameter)
     
-    // then
-    XCTAssertNil(result.httpBody)
+    #expect(result.httpBody == .none)
   }
   
-  func test_empty() throws {
-    // given
+  @Test func empty인_파라미터를_인코드_할_수_있다() throws {
     let parameter: Parameters? = .init()
     
-    // when
     let result = try sut.encode(request: urlRequest, with: parameter)
     
-    // then
-    XCTAssertEqual(result.httpBody?.asString, "{}")
+    #expect(result.httpBody?.asString == "{}")
   }
   
-  func test_단일_파라미터() throws {
-    // given
+  @Test func 단일_파라미터를_인코드_할_수_있다() throws {
     let parameter: Parameters = ["key": "value"]
     
-    // when
     let result = try sut.encode(request: urlRequest, with: parameter)
     
-    // then
-    XCTAssertEqual(result.httpBody?.asString, "{\"key\":\"value\"}")
+    #expect(result.httpBody?.asString == "{\"key\":\"value\"}")
   }
   
-  func test_다중_파라미터() throws {
-    // given
+  @Test func 다중_파라미터를_인코드_할_수_있다() throws {
     let parameter: Parameters = [
       "key1": "value1",
       "key2": "value2",
     ]
     let expected: String = "{\"key1\":\"value1\",\"key2\":\"value2\"}"
     
-    // when
     let result = try sut.encode(request: urlRequest, with: parameter)
     
-    // then
     if let httpBody = result.httpBody?.asString {
-      XCTAssertEqual(expected, httpBody)
+      #expect(expected == httpBody)
     } else {
-      XCTFail()
+      Issue.record()
     }
   }
   
-  func test_복잡한_파라미터() throws {
-    // given
+  @Test func 복잡한_파라미터를_인코드_할_수_있다() throws {
     let parameters: [String: Any] = [
       "foo": "bar",
       "baz": ["a", 1, true],
@@ -88,15 +66,29 @@ final class JSONEncodingTests: XCTestCase {
       ]
     ]
     
-    // when
     let request = try sut.encode(request: urlRequest, with: parameters)
     
-    // then
-    XCTAssertNil(request.url?.query)
-    XCTAssertNotNil(request.httpBody)
+    #expect(request.url?.query == .none)
+    #expect(request.httpBody != .none)
     
-    XCTAssertEqual(try request.httpBody?.asJSONObject() as? NSObject,
-                   parameters as NSObject,
-                   "Decoded request body and parameters should be equal.")
+    #expect(
+      try request.httpBody?.asJSONObject() as? NSObject ==
+      parameters as NSObject,
+      "Decoded request body and parameters should be equal."
+    )
+  }
+  
+  @Test func invalid한_json은_인코드_할_수_없다() {
+    let parameters: [String: Any] = [
+        "validKey": "validValue",
+        "invalidKey": Date() // JSON으로 변환 불가능한 타입
+    ]
+
+    do {
+      _ = try sut.encode(request: urlRequest, with: parameters)
+    }
+    catch {
+      #expect(error == .invalidJSON)
+    }
   }
 }

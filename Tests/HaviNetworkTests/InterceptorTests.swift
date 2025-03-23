@@ -2,15 +2,17 @@
 //  InterceptorTetsts.swift
 //  HaviNetworkTests
 //
-//  Created by 한상진 on 5/7/24.
+//  Created by 한상진 on 12/18/24.
 //
 
-import XCTest
+import Testing
+import Foundation
 @testable import HaviNetwork
 
-#if !os(macOS)
-final class InterceptorTests: XCTestCase {
-  func test_interceptor에서_한개의_헤더를_잘_추가할_수_있다() async throws {
+struct InterceptorTests {
+  let urlRequest: URLRequest = .init(url: .init(string: "https://www.naver.com")!)
+  
+  @Test func interceptor에서_한개의_헤더를_잘_추가할_수_있다() async throws {
     let mockInterceptor: MockInterceptor = .init(
       adaptHandler: { urlRequest in
         var newRequest = urlRequest
@@ -19,34 +21,47 @@ final class InterceptorTests: XCTestCase {
       } 
     )
     
-    let urlRequest: URLRequest = .init(url: .init(string: "https://www.naver.com")!)
-    
     let newURLRequest = try await mockInterceptor.adapt(urlRequest: urlRequest)
-    XCTAssertEqual(newURLRequest.allHTTPHeaderFields, ["Content-Type": "application/json"])
+    #expect(newURLRequest.allHTTPHeaderFields == ["Content-Type": "application/json"])
   }
   
-  func test_interceptor에서_여러개의_헤더를_잘_추가할_수_있다() async throws {
+  @Test func interceptor에서_여러개의_헤더를_잘_추가할_수_있다() async throws {
     let mockInterceptor: MockInterceptor = .init(
       adaptHandler: { urlRequest in
         var newRequest = urlRequest
         newRequest.setHeaders([
           .contentType(value: "application/json"),
-          .init(key: "havi", value: "zzang")
+          .authorization("authorization"),
+          .userAgent(value: "userAgent"),
+          .init(key: "havi", value: "zzang"),
         ])
         return newRequest
       } 
     )
     
-    let urlRequest: URLRequest = .init(url: .init(string: "https://www.naver.com")!)
-    
     let newURLRequest = try await mockInterceptor.adapt(urlRequest: urlRequest)
-    XCTAssertEqual(
-      newURLRequest.allHTTPHeaderFields, 
+    #expect(
+      newURLRequest.allHTTPHeaderFields == 
       [
         "Content-Type": "application/json",
-        "havi": "zzang"
+        "Authorization": "authorization",
+        "User-Agent": "userAgent",
+        "havi": "zzang",
       ]
     )
   }
+  
+  @Test func ineterceptor에서_throw한_에러를_처리할_수_있다() async  {
+    let throwingInterceptor: MockInterceptor = .init(adaptHandler:{ urlRequest in
+      throw NSError(domain: "test", code: 111)
+    })
+    do {
+      _ = try await throwingInterceptor.adapt(urlRequest: urlRequest)
+      Issue.record("this test must fail")
+    }
+    catch {
+      #expect((error as NSError).domain == "test")
+      #expect((error as NSError).code == 111)
+    }
+  }
 }
-#endif
